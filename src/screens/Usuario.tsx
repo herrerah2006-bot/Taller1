@@ -1,5 +1,8 @@
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { Button,View, Text, TextInput, StyleSheet } from 'react-native';
+
+
 
 interface UserData {
     cedula: string;
@@ -15,7 +18,8 @@ const camposFormulario = [
     { id: 'contrasena', label: 'Contraseña', teclado: 'default' },
 ];
 
-export const Usuario = () => {
+export const Usuario = ({navigation}:any) => {
+    
     const [form, setForm] = useState<UserData>({
         cedula: '', nombre: '', correo: '', contrasena: ''
     });
@@ -33,7 +37,26 @@ export const Usuario = () => {
     keyboardType={item.teclado as any}
     secureTextEntry={item.id === 'contrasena'}
     onChangeText={(valor) => setForm({ ...form, [item.id]: valor })} />
+  
     </View> ))}
+ <Button 
+  title="Registrarse" 
+  onPress={() => {
+    
+    console.log("--- Datos Enviados ---");
+    console.log("Cédula:", form.cedula);
+    console.log("Nombre:", form.nombre);
+    console.log("Correo:", form.correo);
+
+    const claveSegura = btoa(form.contrasena); 
+    console.log("Password Encriptada:", claveSegura);
+
+    navigation.dispatch(
+      CommonActions.navigate({ name: 'Productos' })
+    );
+  }} 
+/>
+ 
     </View>
     );
 };
